@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Lab One</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            
+	function power()
+        {
+            var elem = document.getElementById("powerButton");
+            if (elem.value=="Power On") elem.value = "Power Off";
+            else elem.value = "Power On";
+        }
+        window.onload = function () {
+
+var dps = []; // dataPoints
+var chart = new CanvasJS.Chart("chartContainer", {
+	title :{
+		text: "Dynamic Data"
+	},
+	axisY: {
+		includeZero: false
+	},      
+	data: [{
+		type: "line",
+		dataPoints: dps
+	}]
+});
+
+var xVal = 0;
+var yVal = 100; 
+var updateInterval = 1000;
+var dataLength = 20; // number of dataPoints visible at any point
+
+var updateChart = function (count) {
+
+	count = count || 1;
+
+	for (var j = 0; j < count; j++) {
+		yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+		dps.push({
+			x: xVal,
+			y: yVal
+		});
+		xVal++;
+	}
+
+	if (dps.length > dataLength) {
+		dps.shift();
+	}
+
+	chart.render();
+};
+
+updateChart(dataLength);
+setInterval(function(){updateChart()}, updateInterval);
+
+}
+
+    </script>
+    
+    <div id="chartContainer" style="width: 100%; height: 300px;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+    <input onclick="power()" type="button" value="Power On" id="powerButton" />
+        
+    <form action="/action_page.php">
+  Phone Number:<br>
+  <input type="text" name="phone" >
+  <br>
+  <br>
+  <input type="submit" value="Send Text">
+</form> 
+    </body>
+</html>
